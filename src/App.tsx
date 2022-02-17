@@ -8,13 +8,14 @@ interface RepositoryDataResponse {
 }
 
 function App() {
-  const { data: repositories } = useFetch<Array<RepositoryDataResponse>>(
-    "http://api.github.com/users/alexandresantosm/repos"
-  );
+  const { data: repositories, isFetching } = useFetch<
+    Array<RepositoryDataResponse>
+  >("http://api.github.com/users/alexandresantosm/repos");
 
   return (
     <>
       <h1>Lista de repositórios no GitHub</h1>
+      {isFetching && <p>Carregando...</p>}
 
       <ul>
         {repositories?.map((repository, index) => (

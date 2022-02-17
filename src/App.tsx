@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface RepositoryDataResponse {
   name: string;
@@ -11,10 +12,10 @@ function App() {
   >([]);
 
   useEffect(() => {
-    fetch("http://api.github.com/users/alexandresantosm/repos")
-      .then((response) => response.json())
-      .then((data) => {
-        setRepositories(data);
+    axios
+      .get("http://api.github.com/users/alexandresantosm/repos")
+      .then((response) => {
+        setRepositories(response.data);
       });
   }, []);
 

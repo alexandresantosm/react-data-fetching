@@ -1,20 +1,22 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-
-interface RepositoryDataResponse {
-  name: string;
-  description: string;
-}
+import { Repository } from "../entities/Repository";
 
 export function Repos() {
-  const { data: repositories, isFetching } = useQuery("repos", async () => {
-    const response = await axios.get<Array<RepositoryDataResponse>>(
-      "https://api.github.com/users/alexandresantosm/repos"
-    );
+  const { data: repositories, isFetching } = useQuery(
+    "repos",
+    async () => {
+      const response = await axios.get<Array<Repository>>(
+        "https://api.github.com/users/alexandresantosm/repos"
+      );
 
-    return response.data;
-  });
+      return response.data;
+    },
+    {
+      staleTime: 1000 * 60, // 1 minute
+    }
+  );
   return (
     <>
       <h1>Lista de repositórios no GitHub</h1>

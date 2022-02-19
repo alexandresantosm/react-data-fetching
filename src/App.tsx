@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useFetch } from "./hooks/useFetch";
+import { useQuery } from "react-query";
 
 interface RepositoryDataResponse {
   name: string;
@@ -8,10 +8,13 @@ interface RepositoryDataResponse {
 }
 
 function App() {
-  const { data: repositories, isFetching } = useFetch<
-    Array<RepositoryDataResponse>
-  >("http://api.github.com/users/alexandresantosm/repos");
+  const { data: repositories, isFetching } = useQuery("repos", async () => {
+    const response = await axios.get<Array<RepositoryDataResponse>>(
+      "https://api.github.com/users/alexandresantosm/repos"
+    );
 
+    return response.data;
+  });
   return (
     <>
       <h1>Lista de repositórios no GitHub</h1>

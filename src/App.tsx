@@ -1,34 +1,13 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useQuery } from "react-query";
-
-interface RepositoryDataResponse {
-  name: string;
-  description: string;
-}
+import { Route, Routes } from "react-router-dom";
+import { Repo } from "./pages/Repo";
+import { Repos } from "./pages/Repos";
 
 function App() {
-  const { data: repositories, isFetching } = useQuery("repos", async () => {
-    const response = await axios.get<Array<RepositoryDataResponse>>(
-      "https://api.github.com/users/alexandresantosm/repos"
-    );
-
-    return response.data;
-  });
   return (
-    <>
-      <h1>Lista de repositórios no GitHub</h1>
-      {isFetching && <p>Carregando...</p>}
-
-      <ul>
-        {repositories?.map((repository, index) => (
-          <li key={`${repository.name}_${index}`}>
-            <strong>{repository.name}</strong>
-            <p>{repository.description}</p>
-          </li>
-        ))}
-      </ul>
-    </>
+    <Routes>
+      <Route path="/" element={<Repos />} />
+      <Route path="/repos/*" element={<Repo />} />
+    </Routes>
   );
 }
 
